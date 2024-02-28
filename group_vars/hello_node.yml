@@ -1,0 +1,3 @@
+---
+
+example_override_var: "hello_node inventory group value (group_vars/hello_node.yml)"

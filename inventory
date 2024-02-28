@@ -1,0 +1,5 @@
+[hello_node]
+localhost ansible_connection=local
+
+[hello_again_node]
+127.0.0.1 ansible_connection=local

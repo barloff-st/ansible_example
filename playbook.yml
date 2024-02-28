@@ -1,0 +1,44 @@
+---
+
+- name: Hello World Play!
+  hosts: hello_node
+  become: false
+  gather_facts: false
+
+  pre_tasks:
+    - name: This is a pre-task
+      ansible.builtin.debug:
+        msg: "I run first in the playbook!"
+
+  roles:
+    - hello
+
+  tasks:
+    - name: This is a playbook task
+      ansible.builtin.debug:
+        msg: "I run after playbook roles!"
+
+    - name: Let's check the "example_override_var"
+      ansible.builtin.debug:
+        msg: "Hello, from the {{ example_override_var }}!"
+
+  post_tasks:
+    - name: This is a post-task
+      ansible.builtin.debug:
+        msg: "I run last in the playbook!"
+
+- name: Hello (Again) World Play! I'm another play.
+  hosts: hello_again_node # we'll just use the loopback IP for this group so we can have the same host in another group
+  become: false
+  gather_facts: true
+
+  tasks:
+    - name: Let's check the "example_override_var"
+      ansible.builtin.debug:
+        msg: "Hello, from the {{ example_override_var }}!"
+
+    - name: Let's see some variables from our "gather_facts" that we could use - we'll just grab two since it will be a lot
+      ansible.builtin.debug:
+        msg:
+          ansible_facts['default_ipv4']['address']: "{{ ansible_facts['default_ipv4']['address'] }}"
+          ansible_facts['nodename']: "{{ ansible_facts['nodename'] }}"

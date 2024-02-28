@@ -1,0 +1,4 @@
+---
+
+example_override_var: "hello role default value (roles/hello/defaults/main.yml)"
+example_default_var: "no one"

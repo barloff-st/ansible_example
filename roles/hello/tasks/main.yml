@@ -1,0 +1,35 @@
+---
+
+- name: Start of the "hello" role tasks and mark myself as changed so a special handler can say hello after all the tasks run
+  ansible.builtin.debug:
+    msg: "Start the role tasks!"
+  changed_when: true
+  notify: Say hello handler
+
+- name: Special message from the variable "example_default_var"
+  ansible.builtin.debug:
+    msg: "I'm getting overridden by {{ example_default_var }}!"
+
+- name: Special message from the variable "example_override_var"
+  ansible.builtin.debug:
+    msg: "I'm getting overriden by {{ example_override_var }}!"
+
+- name: Use a template file that contains the variable "example_override_var", I'll want that back
+  ansible.builtin.template:
+    src: some_file.txt.j2
+    dest: some_file.txt
+  notify: Not your file
+
+- name: Let's look at the previous file and save the output to as local variable "result"
+  ansible.builtin.command: "cat some_file.txt"
+  register: result
+  changed_when: "result.rc != 0"
+  failed_when: "'FAILED' in result.stderr"
+
+- name: Print our "result" variable and say bye, because it's gone after the role tasks end
+  ansible.builtin.debug:
+    var: result
+
+- name: End of the "hello" role tasks
+  ansible.builtin.debug:
+    msg: "End the role tasks! Keep an eye out for the handlers!"

@@ -1,0 +1,10 @@
+---
+
+- name: Say hello handler
+  ansible.builtin.debug:
+    msg: "Delayed hello! I only run if the task that called me has changed."
+
+- name: Not your file
+  ansible.builtin.file:
+    path: some_file.txt
+    state: absent

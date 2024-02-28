@@ -1,0 +1,3 @@
+---
+
+example_override_var: "all inventory group value (group_vars/all.yml)"
